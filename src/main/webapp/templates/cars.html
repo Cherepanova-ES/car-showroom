@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head"></head>
+<body>
+<div class="container">
+    <br>
+    <nav th:replace="fragments::nav"></nav>
+    <br>
+    <div class="card">
+        <div th:replace="fragments::tabs-cars"></div>
+        <div class="card-body">
+            <a class="btn btn-primary float-right mb-4" href="/car/new">
+                <i class="bi bi-plus-circle"></i> Добавить новую запись
+            </a>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                <tr class="table-primary">
+                    <th>ID</th>
+                    <th>Тип</th>
+                    <th>Производитель</th>
+                    <th>Модель</th>
+                    <th>Год выпуска</th>
+                    <th>Объем двигателя, л</th>
+                    <th>Мощность, л.с.</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${cars.empty}">
+                    <td colspan="7" class="text-center">
+                        <span>В базе данных отсутсвуют записи об автомобилях</span>
+                    </td>
+                </tr>
+                <tr th:each="car : ${cars}">
+                    <td><span th:text="${car.id}">id</span></td>
+                    <td><span th:text="${car.type}">type</span></td>
+                    <td><span th:text="${car.brand}">brand</span></td>
+                    <td><span th:text="${car.model}">model</span></td>
+                    <td><span th:text="${car.year}">model</span></td>
+                    <td><span th:text="${car.engineVolume}">volume</span></td>
+                    <td><span th:text="${car.enginePower}">power</span></td>
+                    <td>
+                        <a class="btn btn-info btn-sm" th:href="@{/car/edit(id=${car.id})}" title="Редактировать">
+                            <i class="bi bi-pen"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/car/delete(id=${car.id})}" title="Удалить"
+                           th:onclick="|return confirm('Удалить запись (id = ${car.id})?')|">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

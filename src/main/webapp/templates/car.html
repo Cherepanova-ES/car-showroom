@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head"></head>
+<body>
+<div class="container">
+    <br>
+    <nav th:replace="fragments::nav"></nav>
+    <br>
+    <div class="card">
+        <div th:replace="fragments::tabs-cars"></div>
+        <div class="card-body">
+            <h5 class="card-title mb-5 mt-4 text-center" th:text="${car ? 'Редактирование автомобиля' : 'Добавление нового автомобиля'}"></h5>
+            <form th:action="${car ? '/car/update' : '/car/insert'}">
+                <input id="id" type="hidden" name="id" th:value="${car ? car.id : null}">
+                <div class="form-group row justify-content-md-center">
+                    <label for="type" class="col-sm-2 col-form-label">Тип</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="type" name="type">
+                            <option th:selected="${car && car.type == 'Легковой'}">Легковой</option>
+                            <option th:selected="${car && car.type == 'Грузовой'}">Грузовой</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="brand" class="col-sm-2 col-form-label">Производитель</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="brand" name="brand"
+                               th:value="${car ? car.brand : null}" required>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="model" class="col-sm-2 col-form-label">Модель</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="model" name="model"
+                               th:value="${car ? car.model : null}" required>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="year" class="col-sm-2 col-form-label">Год выпуска</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="number" id="year" name="year"
+                               th:value="${car ? car.year : null}" min="1900" max="2100" required>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="engineVolume" class="col-sm-2 col-form-label">Объем двигателя, л</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="number" step="0.1" id="engineVolume" name="engineVolume"
+                               th:value="${car ? car.engineVolume : null}" data-toggle="tooltip" data-placement="right"
+                               title="Оставьте пустым для электромобилей">
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="enginePower" class="col-sm-2 col-form-label">Мощность, л.с.</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="number" id="enginePower" name="enginePower"
+                               th:value="${car ? car.enginePower : null}" min="1" required>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-sm-6 mt-4">
+                        <button type="submit" class="btn btn-primary float-right">
+                            <i class="bi bi-floppy"></i> Сохранить
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

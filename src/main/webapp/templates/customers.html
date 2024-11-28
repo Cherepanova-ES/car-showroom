@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head"></head>
+<body>
+<div class="container">
+    <br>
+    <nav th:replace="fragments::nav"></nav>
+    <br>
+    <div class="card">
+        <div th:replace="fragments::tabs-customers"></div>
+        <div class="card-body">
+            <a class="btn btn-primary float-right mb-4" href="/customer/new">
+                <i class="bi bi-plus-circle"></i> Добавить новую запись
+            </a>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                <tr class="table-primary">
+                    <th>ID</th>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Автомобиль</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${customers.empty}">
+                    <td colspan="7" class="text-center">
+                        <span>В базе данных отсутсвуют записи о покупателях</span>
+                    </td>
+                </tr>
+                <tr th:each="customer : ${customers}">
+                    <td><span th:text="${customer.id}">id</span></td>
+                    <td><span th:text="${customer.lastName}">lastName</span></td>
+                    <td><span th:text="${customer.firstName}">firstName</span></td>
+                    <td><span th:text="${customer.patronymic}">patronymic</span></td>
+                    <td><a th:href="@{/car/edit(id=${customer.car.id})}"
+                           th:text="${customer.car.brand + ' ' + customer.car.model}">car</a></td>
+                    <td>
+                        <a class="btn btn-info btn-sm" th:href="@{/customer/edit(id=${customer.id})}"
+                           title="Редактировать">
+                            <i class="bi bi-pen"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/customer/delete(id=${customer.id})}"
+                           title="Удалить" th:onclick="|return confirm('Удалить запись (id = ${customer.id})?')|">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

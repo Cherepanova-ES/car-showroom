@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head"></head>
+<body>
+<div class="container">
+    <br>
+    <nav th:replace="fragments::nav"></nav>
+    <br>
+    <div class="card">
+        <div th:replace="fragments::tabs-customers"></div>
+        <div class="card-body">
+            <h5 class="card-title mb-5 mt-4 text-center"
+                th:text="${customer ? 'Редактирование покупателя' : 'Добавление нового покупателя'}"></h5>
+            <form th:action="${customer ? '/customer/update' : '/customer/insert'}"
+                  th:if="${not cars.empty || customer}">
+                <input id="id" type="hidden" name="id" th:value="${customer ? customer.id : null}">
+                <div class="form-group row justify-content-md-center">
+                    <label for="lastName" class="col-sm-2 col-form-label">Фамилия</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="lastName" name="lastName"
+                               th:value="${customer ? customer.lastName : null}" required>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="firstName" class="col-sm-2 col-form-label">Имя</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="firstName" name="firstName"
+                               th:value="${customer ? customer.firstName : null}" required>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="patronymic" class="col-sm-2 col-form-label">Отчество</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="patronymic" name="patronymic"
+                               th:value="${customer ? customer.patronymic : null}" required>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-md-center">
+                    <label for="carId" class="col-sm-2 col-form-label">Автомобиль</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="carId" name="carId">
+                            <option th:each="car : ${cars}" th:value="${car.id}"
+                                    th:text="${car.brand + ' ' + car.model}"
+                                    th:selected="${customer ? customer.car.id == car.id : false}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-sm-6 mt-4">
+                        <button type="submit" class="btn btn-primary float-right">
+                            <i class="bi bi-floppy"></i> Сохранить
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="row justify-content-md-center" th:if="${cars.empty && !customer}">
+                <div class="col-sm-6 mb-4 alert alert-danger" role="alert">
+                    В настоящее время добавить нового покупателя невозможно т.к. отсутствуют свободные автомобили.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
